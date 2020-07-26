@@ -2,6 +2,8 @@
 board = [ ['_', '_', '_'],
  		['_', '_', '_'],
  		['_', '_', '_']]
+name1 = ""
+name2 = ""
 
 def printBoard():
 	global board
@@ -18,6 +20,7 @@ def updateBoard(player1, r, c):
 
 
 def playerInput(player1):
+	global name1, name2
 	if(player1):
 		r = int(input(name1 + ", enter the row: "))
 	else:
@@ -25,38 +28,70 @@ def playerInput(player1):
 	c = int(input("Enter the column: "))
 	updateBoard(player1, r, c)
 
+def checkBounds(r, c):
+	return r >= 0 and r<3 and c >=0 and c <3
+
+def checkDirection(r, c, rInc, cInc, token):
+	count = 0
+	while checkBounds(r, c) and board[r][c] == token:
+		count = count + 1
+		r = r + rInc
+		c = c + cInc
+	return count == 3
+
+
+def checkWin(player1):
+	global board
+	token = "X"
+	if not player1:
+		token = "O"
+	for r in range(len(board)):
+		for c in range(len(board[0])):
+			row_inc = [-1, 0, 1, 1]
+			col_inc = [0, 1, 1, -1]
+			if board[r][c] == token:
+				for i in range(len(row_inc)):
+					if checkDirection(r, c, row_inc[i], col_inc[i], token):
+						return True
+	return False
 
 
 def playGame():
-	name1 = input('Player 1, enter your name: ')
-	print('Hello, ' + name1)
-
-	name2 = input('Player 2, enter your name: ')
-	print("Hello, " + name2)
-	print(name1 + " you are X, and " + name2 + " you are O")
-
+	global name1, name2
 
 	player1 = False
 	winner = False 
 	count = 0
-	while !winner and count < 9:
-		player1 = !player1
+	while not winner and count < 9:
+		player1 = not player1
 		printBoard()
+		playerInput(player1)
+		winner = checkWin(player1)
+		count = count + 1
+	if player1 and winner:
+		print(name1 + " won!")
+	elif winner:
+		print(name2 + " won!")
+	else:
+		print("There is a tie!")
 
-	# 	take player input 
-	# 	check win
-	# print winner
-	# play again
-	#count++
+	playAgain = input("Print y/n if you would like to play again!")
+	return playAgain == "y"
 
 
 
+# main gameplay
+playAgain = True
+name1 = input('Player 1, enter your name: ')
+print('Hello, ' + name1)
 
-# main gamplay
-	playAgain = True
-	while (playAgain):
-		playGame()
-	print("Goodbye!")
+name2 = input('Player 2, enter your name: ')
+print("Hello, " + name2)
+print(name1 + " you are X, and " + name2 + " you are O")
+
+while (playAgain):
+	playAgain = playGame()
+print("Goodbye!")
 
 
 
