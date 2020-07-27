@@ -1,15 +1,31 @@
 
-board = [ ['_', '_', '_'],
- 		['_', '_', '_'],
- 		['_', '_', '_']]
 name1 = ""
 name2 = ""
+board = [[]]
+
+def resetBoard():
+	global board
+	board = [ ['_', '_', '_'],
+ 		['_', '_', '_'],
+ 		['_', '_', '_']]
 
 def printBoard():
 	global board
 	print("  1 2 3")
 	for i in range(1,4):
 		print(str(i) + " " + " ".join(board[i-1]))
+
+
+def checkValid(r, c):
+	global board
+	if r.isnumeric() and c.isnumeric():
+		r = int(r)
+		c = int(c)
+		if r <=3 and r>=1 and c <=3 and c>=1:
+			if board[r-1][c-1] == '_':
+				return True
+	return False
+
 
 def updateBoard(player1, r, c):
 	global board
@@ -21,15 +37,24 @@ def updateBoard(player1, r, c):
 
 def playerInput(player1):
 	global name1, name2
-	if(player1):
-		r = int(input(name1 + ", enter the row: "))
-	else:
-		r = int(input(name2 + ", enter the row: "))
-	c = int(input("Enter the column: "))
-	updateBoard(player1, r, c)
+	valid = False
+	while not valid:
+		if(player1):
+			r = input(name1 + ", enter the row: ")
+		else:
+			r = input(name2 + ", enter the row: ")
+		
+		c = input("Enter the column: ")
+		if checkValid(r, c):
+			updateBoard(player1, int(r), int(c))
+			valid = True
+		else:
+			print("You have entered an invalid row/column.")
+
 
 def checkBounds(r, c):
 	return r >= 0 and r<3 and c >=0 and c <3
+
 
 def checkDirection(r, c, rInc, cInc, token):
 	count = 0
@@ -58,7 +83,7 @@ def checkWin(player1):
 
 def playGame():
 	global name1, name2
-
+	resetBoard()
 	player1 = False
 	winner = False 
 	count = 0
@@ -75,9 +100,9 @@ def playGame():
 	else:
 		print("There is a tie!")
 
+	printBoard()
 	playAgain = input("Print y/n if you would like to play again!")
 	return playAgain == "y"
-
 
 
 # main gameplay
