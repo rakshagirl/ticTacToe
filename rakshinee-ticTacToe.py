@@ -36,7 +36,6 @@ def updateBoard(player1, r, c):
 
 
 def playerInput(player1):
-	global name1, name2
 	valid = False
 	while not valid:
 		if(player1):
@@ -82,7 +81,6 @@ def checkWin(player1):
 
 
 def playGame():
-	global name1, name2
 	resetBoard()
 	player1 = False
 	winner = False 
