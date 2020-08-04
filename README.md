@@ -8,4 +8,4 @@ When it is your turn, select a square that has not been taken on the 3 X 3 tic-t
 Challenges we ran into:
 
 Plans for the future:
-In the future we hope to create a UI that the player can interact with so that the game is more user friendly.
+In the future we hope to improve our UI that the player can interact with so that the game is even more user friendly.
